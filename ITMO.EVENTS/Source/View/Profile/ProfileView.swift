@@ -10,11 +10,11 @@ import SwiftUI
 struct ProfileHeaderView: View {
     var body: some View {
         HStack {
-            Image(systemName: "person")
+            Image(systemName: "bolt.horizontal.fill")
                 .resizable()
-                .frame(width: 40, height: 40)
+                .frame(width: 70, height: 30)
                 .padding(.horizontal)
-                
+
             VStack(alignment: .leading) {
                 Text("Имя Фамилия")
                     .font(.title)
@@ -29,12 +29,18 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             ProfileHeaderView()
-            Text("История посещенных мероприятий")
-                .font(.subheadline)
-                .padding(.vertical, 7)
-            EventsView()
+            List {
+                Text("История посещенных мероприятий")
+                    .font(.subheadline)
+                    .padding(.vertical, 7)
+                EventsView()
+            }
         }
         .navigationBarTitle("Профиль и Настройки", displayMode: .inline)
         .padding(.top, 16)
     }
+}
+
+#Preview {
+    ContentView()
 }

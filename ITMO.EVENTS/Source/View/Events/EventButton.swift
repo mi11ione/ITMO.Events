@@ -37,6 +37,6 @@ struct AddEventButton: View {
     }
 
     private var buttonBackgroundColor: Color {
-        return colorScheme == .dark ? Color.addButton : .white
+        colorScheme == .dark ? Color.addButton : .white
     }
 }

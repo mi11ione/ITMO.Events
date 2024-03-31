@@ -19,7 +19,7 @@ struct DetailedEventView: View {
                     .frame(maxWidth: .infinity, minHeight: 100, maxHeight: 100)
                     .clipped()
                     .cornerRadius(10)
-                
+
                 Text(event.eventTitle)
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -28,7 +28,7 @@ struct DetailedEventView: View {
                 Text("Состоится")
                     .font(.headline)
                     .padding(.bottom, 3)
-                
+
                 Text(event.eventDate)
                     .font(.headline)
                     .bold()

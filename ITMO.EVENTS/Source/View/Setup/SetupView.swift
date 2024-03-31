@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SetupView: View {
     @State private var isSafariViewPresented = false
-    
+
     var onLoginComplete: () -> Void
-    
+
     var body: some View {
         VStack {
             Spacer()

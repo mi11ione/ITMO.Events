@@ -8,73 +8,70 @@
 import SwiftUI
 
 struct Filters: View {
+    let filterKeys = [
+        "Проверено",
+        "Для студентов",
+        "Для всех",
+        "Ломо",
+        "Кронва",
+        "Онлайн",
+        "Офлайн",
+    ]
+
+    var filters: [String] {
+        filterKeys.map { NSLocalizedString($0, comment: "") }
+    }
+
+    @Binding var selectedFilter: String
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                FilterButton(filter: "Проверено", options: [])
-                FilterButton(filter: "Тип", options: ["Для всех", "Для студентов ИТМО", "Для сотрудников ИТМО"])
-                FilterButton(filter: "Место", options: ["Ломоносова 9", "Кронверкский Пр. 49", "Биржевая 14", "Пер. Гривцова 14", "Ягодное", "Другое"])
-                FilterButton(filter: "Аудитория", options: ["4130/2", "Orange Classroom"])
-                FilterButton(filter: "Формат", options: ["Офлайн", "Онлайн"])
-                FilterButton(filter: "Организаторы", options: ["Администрация", "ITMO.Megabattle", "Клуб", "Студенты"])
-                FilterButton(filter: "Число участников", options: ["от 0 до 9 участников", "от 10 до 49 участников", "от 51 до 99 участников", "от 100 участников"])
-                FilterButton(filter: "Требуются волонтеры", options: [])
+                ForEach(filters, id: \.self) { filter in
+                    FilterButton(filter: filter, isSelected: .constant(filter == selectedFilter), onSelectionChange: { isSelected in
+                        selectedFilter = isSelected ? filter : ""
+                    })
+                }
                 Spacer()
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 22)
         }
     }
 }
 
 struct FilterButton: View {
+    @Environment(\.colorScheme) var colorScheme
+
     var filter: String
-    var options: [String]
-    
-    @State private var isMenuOpen: Bool = false
-    @State private var selectedOptions: Set<String> = []
+    @Binding var isSelected: Bool
+
+    var onSelectionChange: ((Bool) -> Void)?
 
     var body: some View {
-        Menu {
-            ForEach(options, id: \.self) { option in
-                Button(action: {
-                    toggleOption(option)
-                }) {
-                    HStack {
-                        Text(option)
-                        Spacer()
-                        if selectedOptions.contains(option) {
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                }
+        Button(action: {
+            withAnimation(.smooth) {
+                let newState = !isSelected
+                isSelected = newState
+                onSelectionChange?(newState)
             }
-        } label: {
+        }) {
             Text(filter)
                 .font(.headline)
-                .foregroundColor(selectedOptions.isEmpty ? Color.colorado : Color.unColorado)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(selectedOptions.isEmpty ? Color.gray.opacity(0.2) : Color.colorado)
+                .foregroundColor(isSelected ? (colorScheme == .dark ? .black : .white) : (colorScheme == .dark ? .white : .black))
+                .padding(.horizontal, 15)
+                .padding(.vertical, 7)
+                .background(backgroundView)
                 .cornerRadius(10)
-        }
-        .onTapGesture {
-            if options.isEmpty {
-                toggleOption(filter)
-            }
         }
     }
 
-    private func toggleOption(_ option: String) {
-        if selectedOptions.contains(option) {
-            selectedOptions.remove(option)
-        } else {
-            selectedOptions.insert(option)
-        }
-
-        if selectedOptions.isEmpty {
-            isMenuOpen = false
-        } else {
-            isMenuOpen = true
+    private var backgroundView: some View {
+        Group {
+            if isSelected == false {
+                Rectangle().fill(Material.ultraThin)
+            } else {
+                Rectangle().fill(colorScheme == .dark ? Color.white : Color.black)
+            }
         }
     }
 }

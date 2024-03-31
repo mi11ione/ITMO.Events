@@ -48,9 +48,9 @@ struct Event: Hashable {
     }
 
     static func == (lhs: Event, rhs: Event) -> Bool {
-        return lhs.eventTitle == rhs.eventTitle &&
-               lhs.eventDate == rhs.eventDate &&
-               lhs.eventDetails == rhs.eventDetails &&
-               lhs.eventImage == rhs.eventImage
+        lhs.eventTitle == rhs.eventTitle &&
+            lhs.eventDate == rhs.eventDate &&
+            lhs.eventDetails == rhs.eventDetails &&
+            lhs.eventImage == rhs.eventImage
     }
 }

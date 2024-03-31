@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @State private var navigationPath = NavigationPath()
+    @State private var selectedFilter: String = ""
 
     enum Tab: Hashable {
         case events, profile
@@ -17,20 +18,22 @@ struct MainView: View {
     var body: some View {
         NavigationStack(path: $navigationPath) {
             mainContent
-            .navigationDestination(for: String.self) { value in
-                Text(value)
-            }
-            .navigationDestination(for: Tab.self) { tab in
-                destinationView(for: tab)
-            }
+                .navigationDestination(for: String.self) { value in
+                    Text(value)
+                }
+                .navigationDestination(for: Tab.self) { tab in
+                    destinationView(for: tab)
+                }
         }
     }
 
     private var mainContent: some View {
         ZStack {
             VStack {
-                Filters()
-                EventsView()
+                Filters(selectedFilter: $selectedFilter)
+                List {
+                    EventsView()
+                }
             }
             .navigationBarTitle("ITMO.EVENTS", displayMode: .inline)
             .padding(.top, 5)

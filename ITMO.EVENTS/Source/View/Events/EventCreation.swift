@@ -12,6 +12,7 @@ struct EventCreationSheet: View {
     @State private var isImagePickerPresented = false
     @State private var nameText: String = ""
     @State private var descriptionText: String = ""
+    @State private var selectedFilter: String = ""
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -48,7 +49,7 @@ struct EventCreationSheet: View {
                         }
                         .padding()
                     }
-                    
+
                     Text("Название мероприятия")
                         .padding([.top, .leading, .trailing])
                     TextField("Пример: ITMO.MegaBattle", text: $nameText, axis: .vertical)
@@ -57,7 +58,7 @@ struct EventCreationSheet: View {
                         .background(Color(.secondarySystemBackground))
                         .clipShape(RoundedRectangle(cornerRadius: 9))
                         .padding([.leading, .trailing])
-                    
+
                     Text("Описание мероприятия")
                         .padding([.top, .leading, .trailing])
                     TextField("Пример: Очень интересное мероприятие", text: $descriptionText, axis: .vertical)
@@ -66,8 +67,8 @@ struct EventCreationSheet: View {
                         .background(Color(.secondarySystemBackground))
                         .clipShape(RoundedRectangle(cornerRadius: 9))
                         .padding([.leading, .trailing])
-                    
-                    Filters().padding(.vertical, 10)
+
+                    Filters(selectedFilter: $selectedFilter).padding(.vertical, 10)
                 }
             }
             .navigationBarItems(leading: Button("Назад") {
